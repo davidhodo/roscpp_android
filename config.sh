@@ -7,5 +7,5 @@ PYTHONPATH=/opt/ros/indigo/lib/python2.7/dist-packages:$PYTHONPATH
 CMAKE_BUILD_TYPE=Debug
 # Enable this if you need to use pluginlib in Android.
 # The plugins will be statically linked
-use_pluginlib=1
+use_pluginlib=0
 
