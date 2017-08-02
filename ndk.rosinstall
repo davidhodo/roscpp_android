@@ -186,10 +186,10 @@
     local-name: roslisp
     uri: https://github.com/ros-gbp/roslisp-release/archive/release/indigo/roslisp/1.9.21-0.tar.gz
     version: roslisp-release-release-indigo-roslisp-1.9.21-0
-- tar:
+- git:
     local-name: rospack
-    uri: https://github.com/ros-gbp/rospack-release/archive/release/indigo/rospack/2.2.8-0.tar.gz
-    version: rospack-release-release-indigo-rospack-2.2.8-0
+    uri: https://github.com/ekumenlabs/rospack.git
+    version: android
 - tar:
     local-name: std_msgs
     uri: https://github.com/ros-gbp/std_msgs-release/archive/release/indigo/std_msgs/0.5.10-0.tar.gz

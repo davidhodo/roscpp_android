@@ -197,10 +197,6 @@ echo
 echo -e '\e[34mCreating Android.mk.\e[39m'
 echo
 
-# Library path is incorrect for urdf.
-# TODO: Need to investigate the source of the issue
-sed -i 's/set(libraries "urdf;/set(libraries "/g' $CMAKE_PREFIX_PATH/share/urdf/cmake/urdfConfig.cmake
-
 run_cmd create_android_mk $prefix/catkin_ws/src $prefix/roscpp_android_ndk
 
 if [[ $debugging -eq 1 ]];then
@@ -222,10 +218,7 @@ echo
 
 # Copy specific Android makefile to build the image_transport_sample_app
 # This makefile includes the missing opencv 3rd party libraries.
-( cp $my_loc/files/Android.mk.image_transport $prefix/roscpp_android_ndk/Android.mk)
-
-( cd $prefix && run_cmd sample_app image_transport_sample_app $prefix/roscpp_android_ndk )
-
+( cd $prefix && run_cmd sample_app $prefix/roscpp_android_ndk )
 
 
 echo
