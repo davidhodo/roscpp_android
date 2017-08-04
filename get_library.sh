@@ -54,6 +54,9 @@ elif [ $1 == 'rospkg' ]; then
     URL=https://github.com/ros-infrastructure/rospkg.git
     COMP='git'
     HASH='93b1b72f256badf22ccc926b22646f2e83b720fd'
+elif [ $1 == 'protobuf' ]; then
+    URL=https://github.com/google/protobuf/archive/v3.3.0.tar.gz
+    COMP='gz'
 fi
 
 if [ $COMP == 'gz' ]; then

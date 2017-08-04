@@ -33,6 +33,12 @@ do
         portable=1
     fi
 
+    if [[ ${var} == "--bash" ]] ; then
+        output_path=$my_loc"/output"
+        standard=1
+        bash=1
+    fi
+
     if [[ ${var} == "--raw" ]] ; then
         standard=1
         output_path=$my_loc"/output"
@@ -82,8 +88,11 @@ sudo docker pull ekumenlabs/rosndk
 if [[ $standard -eq 1 ]]; then
   echo -e '\e[34mSetting output_path to: '$output_path'.\e[39m'
   echo
-  #sudo docker run --rm=true -t -v $my_loc:/opt/roscpp_android -v $output_path:/opt/roscpp_output -i ekumenlabs/rosndk /opt/roscpp_android/do_everything.sh /opt/roscpp_output
-  sudo docker run --rm=true -it -v $my_loc:/opt/roscpp_android -v $output_path:/opt/roscpp_output -i ekumenlabs/rosndk /bin/bash
+  if [[ $bash -eq 1 ]]; then
+      sudo docker run --rm=true -it -v $my_loc:/opt/roscpp_android -v $output_path:/opt/roscpp_output -i ekumenlabs/rosndk /bin/bash
+  else
+      sudo docker run --rm=true -t -v $my_loc:/opt/roscpp_android -v $output_path:/opt/roscpp_output -i ekumenlabs/rosndk /opt/roscpp_android/do_everything.sh /opt/roscpp_output 
+  fi
   exit $?
 fi
 

@@ -194,4 +194,19 @@
     local-name: std_msgs
     uri: https://github.com/ros-gbp/std_msgs-release/archive/release/indigo/std_msgs/0.5.10-0.tar.gz
     version: std_msgs-release-release-indigo-std_msgs-0.5.10-0
-
+- tar:
+    local-name: common_msgs/geometry_msgs
+    uri: https://github.com/ros-gbp/common_msgs-release/archive/release/indigo/geometry_msgs/1.11.8-0.tar.gz
+    version: common_msgs-release-release-indigo-geometry_msgs-1.11.9-0
+- tar:
+    local-name: common_msgs/sensor_msgs
+    uri: https://github.com/ros-gbp/common_msgs-release/archive/release/indigo/sensor_msgs/1.11.8-0.tar.gz
+    version: common_msgs-release-release-indigo-sensor_msgs-1.11.9-0
+- tar:
+    local-name: common_msgs/nav_msgs
+    uri: https://github.com/ros-gbp/common_msgs-release/archive/release/indigo/nav_msgs/1.11.9-0.tar.gz
+    version: common_msgs-release-release-indigo-nav_msgs-1.11.9-0
+- tar:
+    local-name: common_msgs/actionlib_msgs
+    uri: https://github.com/ros-gbp/common_msgs-release/archive/release/indigo/actionlib_msgs/1.11.9-0.tar.gz
+    version: common_msgs-release-release-indigo-actionlib_msgs-1.11.9-0

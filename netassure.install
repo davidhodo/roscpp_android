@@ -1,0 +1,9 @@
+- git: {local-name: serial, uri: 'git@gitlab.is4s-auburn.com:common/serial.git', version: v1.2.1}
+- git: {local-name: rifleman_pps_shim, uri: 'git@gitlab.is4s-auburn.com:cerdec/rifleman_pps_shim.git', version: v1.2.3}
+- git: {local-name: netassure, uri: 'git@gitlab.is4s-auburn.com:cerdec/netassure.git', version: master}
+- git: {local-name: ros_sensor_msgs, uri: 'git@gitlab.is4s-auburn.com:common/ros_sensor_msgs.git', version: v0.10.1}
+- git: {local-name: symmetricom_sa45s_csac, uri: 'git@gitlab.is4s-auburn.com:common/symmetricom_sa45s_csac.git', version: v1.2.2}
+- git: {local-name: is4s_common, uri: 'git@gitlab.is4s-auburn.com:common/is4s_common.git', version: master}
+- git: {local-name: ublox, uri: 'git@gitlab.is4s-auburn.com:gps/ublox.git', version: v1.4.2}
+- git: {local-name: gssip, uri: 'git@gitlab.is4s-auburn.com:gps/gssip.git', version: v1.6.1}
+
