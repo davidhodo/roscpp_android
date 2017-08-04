@@ -10,6 +10,8 @@ del_tmp=0
 portable=0
 standard=0
 
+image_name="bgromov/rosndk:r14b"
+
 if [[ $# -lt 1 ]] ; then
     standard=1
     output_path=$my_loc"/output"
@@ -62,7 +64,7 @@ if [[ $del_image -eq 1 ]]; then
   echo
   echo -e '\e[34mDeleting docker image.\e[39m'
   echo
-  sudo docker rmi -f ekumenlabs/rosndk
+  sudo docker rmi -f $image_name
   exit $?
 fi
 
@@ -82,16 +84,16 @@ echo
 cmd_exists docker || die 'docker was not found'
 
 echo -e '\e[34mPulling base docker image.\e[39m'
-sudo docker pull ekumenlabs/rosndk
+sudo docker pull $image_name
 
 
 if [[ $standard -eq 1 ]]; then
   echo -e '\e[34mSetting output_path to: '$output_path'.\e[39m'
   echo
   if [[ $bash -eq 1 ]]; then
-      sudo docker run --rm=true -it -v $my_loc:/opt/roscpp_android -v $output_path:/opt/roscpp_output -i ekumenlabs/rosndk /bin/bash
+      sudo docker run --rm=true -it -v $my_loc:/opt/roscpp_android -v $output_path:/opt/roscpp_output -i $image_name /bin/bash
   else
-      sudo docker run --rm=true -t -v $my_loc:/opt/roscpp_android -v $output_path:/opt/roscpp_output -i ekumenlabs/rosndk /opt/roscpp_android/do_everything.sh /opt/roscpp_output 
+      sudo docker run --rm=true -t -v $my_loc:/opt/roscpp_android -v $output_path:/opt/roscpp_output -i $image_name /opt/roscpp_android/do_everything.sh /opt/roscpp_output 
   fi
   exit $?
 fi
@@ -99,7 +101,7 @@ fi
 if [[ $portable -eq 1 ]]; then
   echo -e '\e[34mBuilding in portable mode.\e[39m'
   echo
-  sudo docker run --rm=true -t -v $my_loc:/opt/roscpp_android -v $output_path:/opt/roscpp_output -i ekumenlabs/rosndk /opt/roscpp_android/do_everything.sh /opt/roscpp_output --portable
+  sudo docker run --rm=true -t -v $my_loc:/opt/roscpp_android -v $output_path:/opt/roscpp_output -i $image_name /opt/roscpp_android/do_everything.sh /opt/roscpp_output --portable
   echo
   echo -e '\e[34mCreating output/roscpp_android_ndk.tar.gz.\e[39m'
   echo
