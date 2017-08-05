@@ -64,7 +64,7 @@ if [[ $del_image -eq 1 ]]; then
   echo
   echo -e '\e[34mDeleting docker image.\e[39m'
   echo
-  sudo docker rmi -f $image_name
+  docker rmi -f $image_name
   exit $?
 fi
 
@@ -72,7 +72,7 @@ if [[ $del_tmp -eq 1 ]]; then
   echo
   echo -e '\e[34mDeleting docker temporary directory.\e[39m'
   echo
-  sudo rm -rf /var/lib/docker/tmp
+  rm -rf /var/lib/docker/tmp
   exit $?
 fi
 
@@ -84,16 +84,16 @@ echo
 cmd_exists docker || die 'docker was not found'
 
 echo -e '\e[34mPulling base docker image.\e[39m'
-sudo docker pull $image_name
+docker pull $image_name
 
 
 if [[ $standard -eq 1 ]]; then
   echo -e '\e[34mSetting output_path to: '$output_path'.\e[39m'
   echo
   if [[ $bash -eq 1 ]]; then
-      sudo docker run --rm=true -it -v $my_loc:/opt/roscpp_android -v $output_path:/opt/roscpp_output -i $image_name /bin/bash
+      docker run --rm=true -it -v $my_loc:/opt/roscpp_android -v $output_path:/opt/roscpp_output -i $image_name /bin/bash
   else
-      sudo docker run --rm=true -t -v $my_loc:/opt/roscpp_android -v $output_path:/opt/roscpp_output -i $image_name /opt/roscpp_android/do_everything.sh /opt/roscpp_output 
+      docker run --rm=true -t -v $my_loc:/opt/roscpp_android -v $output_path:/opt/roscpp_output -i $image_name /opt/roscpp_android/do_everything.sh /opt/roscpp_output 
   fi
   exit $?
 fi
@@ -101,12 +101,12 @@ fi
 if [[ $portable -eq 1 ]]; then
   echo -e '\e[34mBuilding in portable mode.\e[39m'
   echo
-  sudo docker run --rm=true -t -v $my_loc:/opt/roscpp_android -v $output_path:/opt/roscpp_output -i $image_name /opt/roscpp_android/do_everything.sh /opt/roscpp_output --portable
+  docker run --rm=true -t -v $my_loc:/opt/roscpp_android -v $output_path:/opt/roscpp_output -i $image_name /opt/roscpp_android/do_everything.sh /opt/roscpp_output --portable
   echo
   echo -e '\e[34mCreating output/roscpp_android_ndk.tar.gz.\e[39m'
   echo
   cd output
-  sudo tar czf roscpp_android_ndk.tar.gz roscpp_android_ndk
-  sudo chown $UID roscpp_android_ndk.tar.gz
+  tar czf roscpp_android_ndk.tar.gz roscpp_android_ndk
+  chown $UID roscpp_android_ndk.tar.gz
   exit $?
 fi

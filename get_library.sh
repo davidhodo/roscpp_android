@@ -20,7 +20,7 @@ echo
 prefix=$(cd $2 && pwd)
 
 if [ $1 == 'boost' ]; then
-    URL=https://github.com/bgromov/Boost-for-Android.git
+    URL=https://github.com/davidhodo/Boost-for-Android.git
     COMP='git'
 elif [ $1 == 'bzip2' ]; then
     URL=https://github.com/osrf/bzip2_cmake.git

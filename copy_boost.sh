@@ -31,4 +31,4 @@ done
 
 cd ../include
 mkdir -p $CMAKE_PREFIX_PATH/include
-cp -R boost-1_53/boost $CMAKE_PREFIX_PATH/include/
+cp -R boost-1_64/boost $CMAKE_PREFIX_PATH/include/

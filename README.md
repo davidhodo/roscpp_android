@@ -1,8 +1,28 @@
+# Native ROS on Android 
+
 These scripts will (hopefully) help you build static libraries
 for tf2 for android and setup a sample application.
 
 You will need android SDK installed and the 'android' program
 location in the $PATH.
+
+## Prerequisities
+
+Docker must be installed and configured to allow access without root.
+
+    sudo apt install docker 
+
+TODO: switch to official method later - https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/#install-using-the-repository
+
+Add the current user to the docker group:
+    
+    sudo usermod -aG docker ${USER}
+
+Update the group or log out and back in to update permissions:
+
+    su - ${USER}
+
+https://askubuntu.com/questions/477551/how-can-i-use-docker-without-sudo
 
 INSTALL
 -------

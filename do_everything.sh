@@ -3,7 +3,7 @@
 # Abort script on any failures
 set -e
 
-#sudo apt-get install autoconf automake libtool curl make g++ unzip
+sudo apt-get install autoconf automake libtool curl make g++ unzip
 
 # Define the number of simultaneous jobs to trigger for the different
 # tasks that allow it. Use the number of available processors in the
@@ -177,7 +177,7 @@ echo
 [ -f $prefix/target/lib/libeigen.a ] || run_cmd build_eigen $prefix/libs/eigen
 [ -f $prefix/target/lib/libyaml-cpp.a ] || run_cmd build_library yaml-cpp $prefix/libs/yaml-cpp
 [ -f $prefix/target/lib/liblog4cxx.a ] || run_cmd build_library_with_toolchain log4cxx $prefix/libs/apache-log4cxx-0.10.0
-[ -f $prefix/target/lib/protobuf.a ] || run_cmd build_library_with_toolchain protobuf $prefix/libs/protobuf-3.3.0
+[ -f $prefix/target/lib/libprotobuf.a ] || run_cmd build_library_with_toolchain protobuf $prefix/libs/protobuf-3.3.0
 
 
 echo

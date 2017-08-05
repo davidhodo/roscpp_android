@@ -26,7 +26,8 @@ echo
 
 if [ ! -d toolchain/ ]; then
   mkdir toolchain/
-  $ANDROID_NDK/build/tools/make-standalone-toolchain.sh --platform=android-14 --install-dir=./toolchain --ndk-dir=$ANDROID_NDK --system=linux-x86_64
+  #$ANDROID_NDK/build/tools/make-standalone-toolchain.sh --platform=$platform --install-dir=./toolchain --ndk-dir=$ANDROID_NDK --system=linux-x86_64
+  $ANDROID_NDK/build/tools/make_standalone_toolchain.py --arch arm --api 19 --install-dir ./toolchain
 fi
 
 if [ $1 == 'poco' ]; then
