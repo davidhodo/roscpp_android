@@ -44,15 +44,7 @@ fi
 export PATH=$PATH:$2/toolchain/bin
 make -s -j$PARALLEL_JOBS -l$PARALLEL_JOBS
 
-if [ $1 == 'poco' ]; then
-    mkdir -p $CMAKE_PREFIX_PATH/lib
-    cd $CMAKE_PREFIX_PATH/lib
-    cp $prefix/lib/Android/armeabi/lib*.a ./
-    mkdir -p ../include && cd ../include
-    cp -r $prefix/Foundation/include/Poco ./
-else
-    make install
-fi
+make install
 
 if [ $1 == 'curl' ]; then
     sed -i 's/#define CURL_SIZEOF_LONG 8/#define CURL_SIZEOF_LONG 4/g' $CMAKE_PREFIX_PATH/include/curl/curlbuild.h
