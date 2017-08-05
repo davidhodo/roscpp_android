@@ -22,6 +22,7 @@ prefix=$(cd $2 && pwd)
 if [ $1 == 'boost' ]; then
     URL=https://github.com/davidhodo/Boost-for-Android.git
     COMP='git'
+    HASH='r15b'
 elif [ $1 == 'bzip2' ]; then
     URL=https://github.com/osrf/bzip2_cmake.git
     COMP='git'
@@ -67,10 +68,12 @@ elif [ $COMP == 'git' ];then
     git clone $URL $prefix/$1
 fi
 
-if [ $1 == 'boost' ]; then
- cd $prefix/boost
- NDK_RN=14b ANDROID_NDK_TOOLCHAIN=$ANDROID_STANDALONE_TOOLCHAIN ./build-android.sh $ANDROID_NDK --boost=1.64.0
-elif [ -v HASH ]; then
+if [ -v HASH ]; then
     cd $prefix/$1
     git checkout $HASH
+fi
+
+if [ $1 == 'boost' ]; then
+ cd $prefix/boost
+ NDK_RN=15b ANDROID_NDK_TOOLCHAIN=$ANDROID_STANDALONE_TOOLCHAIN ./build-android.sh $ANDROID_NDK --boost=1.64.0
 fi

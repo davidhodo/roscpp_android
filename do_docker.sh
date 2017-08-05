@@ -10,7 +10,8 @@ del_tmp=0
 portable=0
 standard=0
 
-image_name="bgromov/rosndk:r14b"
+#image_name="bgromov/rosndk:r14b"
+image_name="is4s/rosndk"
 
 if [[ $# -lt 1 ]] ; then
     standard=1
