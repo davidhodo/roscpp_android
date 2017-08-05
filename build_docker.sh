@@ -20,5 +20,5 @@ echo -e '\e[34mBuilding docker image.\e[39m'
 echo
 
 # Build docker image
-sudo docker build -t rosndk .
+docker build -t rosndk ./docker/
 # TODO: Verify successful docker image build
