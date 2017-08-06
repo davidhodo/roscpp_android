@@ -25,7 +25,7 @@ else
     exit 1
 fi
 
-
+export ANDROID_STANDALONE_TOOLCHAIN=/opt/android-toolchain
 # verbose is a bool flag indicating if we want more verbose output in
 # the build process. Useful for debugging build system or compiler errors.
 verbose=0
@@ -91,6 +91,7 @@ if [ -z $ROS_DISTRO ] ; then
     die "HOST ROS ENVIRONMENT NOT FOUND! Did you source /opt/ros/$ROS_DISTRO/setup.bash"
 fi
 
+echo "Setup standalone toolchain: $standalone_toolchain_path"
 [ -d $standalone_toolchain_path ] || run_cmd setup_standalone_toolchain
 
 echo
@@ -147,18 +148,18 @@ if [[ $skip -ne 1 ]] ; then
     echo
 
     # patch CMakeLists.txt for lz4 library - Build as a library
-    apply_patch /opt/roscpp_android/patches/lz4.patch
+    apply_patch $my_loc/patches/lz4.patch
 
     # Patch qhull - Don't install shared libraries
     # TODO: Remove shared libraries to avoid hack in parse_libs.py
-    #apply_patch /opt/roscpp_android/patches/qhull.patch
+    #apply_patch $my_loc/patches/qhull.patch
 
     # Patch eigen - Rename param as some constant already has the same name
     # TODO: Fork and push changes to creativa's repo
-    apply_patch /opt/roscpp_android/patches/eigen.patch
+    apply_patch $my_loc/patches/eigen.patch
 
     # Patch log4cxx - Add missing headers
-    apply_patch /opt/roscpp_android/patches/log4cxx.patch
+    apply_patch $my_loc/patches/log4cxx.patch
 
     ## Demo Application specific patches
 

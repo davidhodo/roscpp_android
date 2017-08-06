@@ -11,7 +11,7 @@ portable=0
 standard=0
 
 #image_name="bgromov/rosndk:r14b"
-image_name="is4s/rosndk"
+image_name="is4s/rosndk:r15b_standalone"
 
 if [[ $# -lt 1 ]] ; then
     standard=1

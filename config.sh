@@ -3,10 +3,7 @@ gcc_version=4.9
 toolchain=arm-linux-androideabi-$gcc_version
 platform=android-19
 ROS_DISTRO=kinetic
-PYTHONPATH=/opt/ros/indigo/lib/python2.7/dist-packages:$PYTHONPATH
+PYTHONPATH=/opt/ros/$ROS_DISTRO/lib/python2.7/dist-packages:$PYTHONPATH
 # Enable this value for debug build
-CMAKE_BUILD_TYPE=Debug
-# Enable this if you need to use pluginlib in Android.
-# The plugins will be statically linked
-use_pluginlib=0
+#CMAKE_BUILD_TYPE=Debug
 

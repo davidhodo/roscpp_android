@@ -18,21 +18,21 @@ fi
 prefix=$(cd $1 && pwd)
 
 # Get list of packages from catkin
-package_list=$(/opt/ros/indigo/bin/catkin_topological_order --only-names $prefix | tr '\n' ';')
+package_list=$(/opt/ros/$ROS_DISTRO/bin/catkin_topological_order --only-names $prefix | tr '\n' ';')
 
 # Call a CMAKE script to get the equivalent of $catkin_LIBRARIES for all of the above packages
 rm -rf $CMAKE_PREFIX_PATH/find_libs
 mkdir -p $CMAKE_PREFIX_PATH/find_libs
 cp $my_loc/files/FindLibrariesCMakeLists.txt $CMAKE_PREFIX_PATH/find_libs/CMakeLists.txt
 cd $CMAKE_PREFIX_PATH/find_libs
-cmake ../find_libs -DCMAKE_PREFIX_PATH="$CMAKE_PREFIX_PATH;$ANDROID_NDK/platforms/android-14/arch-arm/usr/lib" \
+cmake ../find_libs -DCMAKE_PREFIX_PATH="$CMAKE_PREFIX_PATH;$ANDROID_NDK/platforms/$PLATFORM/arch-arm/usr/lib" \
              -DALL_PACKAGES="$package_list"
 
 # Read the output file to get the paths of all of the libraries
 full_library_list=$(cat $CMAKE_PREFIX_PATH/find_libs/libraries.txt)
 
 # Parse this libraries (separated by ;), skip all libraries that start with the second argument paths (separated by ;)
-lib_output=$($my_loc/parse_libs.py $full_library_list $ANDROID_NDK/platforms/android-14/arch-arm/usr/lib)
+lib_output=$($my_loc/parse_libs.py $full_library_list $ANDROID_NDK/platforms/$PLATFORM/arch-arm/usr/lib)
 
 # Go to the output library directory
 if [ ! -d $2 ]; then

@@ -19,16 +19,16 @@ cd $2
 
 # Create a stand alone version of the android toolchain
 echo
-echo -e '\e[34mBuilding '$1'.\e[39m'
+echo -e '\e[34mBuilding '$1'. Prefix: '$CMAKE_PREFIX_PATH'\e[39m'
 echo
 
 [ "$CMAKE_PREFIX_PATH" = "" ] && die 'could not find target basedir. Have you run build_catkin.sh and sourced setup.bash?'
 
-if [ ! -d toolchain/ ]; then
-  mkdir toolchain/
-  #$ANDROID_NDK/build/tools/make-standalone-toolchain.sh --platform=$platform --install-dir=./toolchain --ndk-dir=$ANDROID_NDK --system=linux-x86_64
-  $ANDROID_NDK/build/tools/make_standalone_toolchain.py --arch arm --api 19 --install-dir ./toolchain
-fi
+#if [ ! -d toolchain/ ]; then
+#  mkdir toolchain/
+#  #$ANDROID_NDK/build/tools/make-standalone-toolchain.sh --platform=$platform --install-dir=./toolchain --ndk-dir=$ANDROID_NDK --system=linux-x86_64
+#  $ANDROID_NDK/build/tools/make_standalone_toolchain.py --arch arm --api 19 --install-dir ./toolchain
+#fi
 
 if [ $1 == 'poco' ]; then
     ./configure --config=Android_static --no-samples --no-tests
@@ -41,18 +41,10 @@ else
     ./configure --prefix=$CMAKE_PREFIX_PATH --enable-shared=no --enable-static
 fi
 
-export PATH=$PATH:$2/toolchain/bin
+export PATH=$PATH:$ANDROID_STANDALONE_TOOLCHAIN/bin
 make -s -j$PARALLEL_JOBS -l$PARALLEL_JOBS
 
-if [ $1 == 'poco' ]; then
-    mkdir -p $CMAKE_PREFIX_PATH/lib
-    cd $CMAKE_PREFIX_PATH/lib
-    cp $prefix/lib/Android/armeabi/lib*.a ./
-    mkdir -p ../include && cd ../include
-    cp -r $prefix/Foundation/include/Poco ./
-else
-    make install
-fi
+make install
 
 if [ $1 == 'curl' ]; then
     sed -i 's/#define CURL_SIZEOF_LONG 8/#define CURL_SIZEOF_LONG 4/g' $CMAKE_PREFIX_PATH/include/curl/curlbuild.h
