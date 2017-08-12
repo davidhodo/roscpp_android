@@ -32,7 +32,7 @@ elif [ $1 == 'catkin' ]; then
 elif [ $1 == 'console_bridge' ]; then
     URL=https://github.com/ros/console_bridge.git
     COMP='git'
-    HASH='964a9a70e0fc607476e439b8947a36b07322c304'
+    HASH='0.3.2'
 elif [ $1 == 'eigen' ]; then
     URL=https://github.com/tulku/eigen.git
     COMP='git'

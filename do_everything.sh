@@ -25,7 +25,8 @@ else
     exit 1
 fi
 
-export ANDROID_STANDALONE_TOOLCHAIN=/opt/android-toolchain
+
+
 # verbose is a bool flag indicating if we want more verbose output in
 # the build process. Useful for debugging build system or compiler errors.
 verbose=0
@@ -91,8 +92,12 @@ if [ -z $ROS_DISTRO ] ; then
     die "HOST ROS ENVIRONMENT NOT FOUND! Did you source /opt/ros/$ROS_DISTRO/setup.bash"
 fi
 
-echo "Setup standalone toolchain: $standalone_toolchain_path"
-[ -d $standalone_toolchain_path ] || run_cmd setup_standalone_toolchain
+export ANDROID_STANDALONE_TOOLCHAIN=/opt/android-toolchain
+
+echo "Setup standalone toolchain: $ANDROID_STANDALONE_TOOLCHAIN="
+#[ -d $ANDROID_STANDALONE_TOOLCHAIN] || $ANDROID_NDK/build/tools/make_standalone_toolchain.py --arch arm --api 19 --stl libc++ --install-dir $ANDROID_STANDALONE_TOOLCHAIN
+#$ANDROID_NDK/build/tools/make_standalone_toolchain.py --arch arm --api 19 --stl libc++ --install-dir $ANDROID_STANDALONE_TOOLCHAIN --force
+$ANDROID_NDK/build/tools/make_standalone_toolchain.py --arch arm --api 19 --install-dir $ANDROID_STANDALONE_TOOLCHAIN --force
 
 echo
 echo -e '\e[34mGetting library dependencies.\e[39m'
@@ -106,14 +111,15 @@ export CMAKE_PREFIX_PATH=$prefix/target
 
 # Get the android ndk build helper script
 # If file doesn't exist, then download and patch it
-if ! [ -e $prefix/android.toolchain.cmake ]; then
-    cd $prefix
-    download 'https://raw.githubusercontent.com/taka-no-me/android-cmake/556cc14296c226f753a3778d99d8b60778b7df4f/android.toolchain.cmake'
-    patch -p0 -N -d $prefix < $my_loc/patches/android.toolchain.cmake.patch
-    cat $my_loc/files/android.toolchain.cmake.addendum >> $prefix/android.toolchain.cmake
-fi
+#if ! [ -e $prefix/android.toolchain.cmake ]; then
+#    cd $prefix
+#    download 'https://raw.githubusercontent.com/taka-no-me/android-cmake/556cc14296c226f753a3778d99d8b60778b7df4f/android.toolchain.cmake'
+#    patch -p0 -N -d $prefix < $my_loc/patches/android.toolchain.cmake.patch
+#    cat $my_loc/files/android.toolchain.cmake.addendum >> $prefix/android.toolchain.cmake
+#fi
 
-export RBA_TOOLCHAIN=$prefix/android.toolchain.cmake
+#export RBA_TOOLCHAIN=$prefix/android.toolchain.cmake
+export RBA_TOOLCHAIN=$ANDROID_NDK/build/cmake/android.toolchain.cmake
 
 # Now get boost with a specialized build
 [ -d $prefix/libs/boost ] || run_cmd get_library boost $prefix/libs
@@ -123,7 +129,7 @@ export RBA_TOOLCHAIN=$prefix/android.toolchain.cmake
 [ -d $prefix/libs/catkin ] || run_cmd get_library catkin $prefix/libs
 [ -d $prefix/libs/console_bridge ] || run_cmd get_library console_bridge $prefix/libs
 [ -d $prefix/libs/lz4-r124 ] || run_cmd get_library lz4 $prefix/libs
-[ -d $prefix/libs/libxml2-2.9.1 ] || run_cmd get_library libxml2 $prefix/libs
+#[ -d $prefix/libs/libxml2-2.9.1 ] || run_cmd get_library libxml2 $prefix/libs
 [ -d $prefix/libs/eigen ] || run_cmd get_library eigen $prefix/libs
 [ -d $prefix/libs/assimp-3.1.1 ] || run_cmd get_library assimp $prefix/libs
 [ -d $prefix/libs/yaml-cpp ] || run_cmd get_library yaml-cpp $prefix/libs
@@ -175,7 +181,7 @@ echo
 [ -f $prefix/target/lib/libtinyxml.a ] || run_cmd build_library tinyxml $prefix/libs/tinyxml
 [ -f $prefix/target/lib/libconsole_bridge.a ] || run_cmd build_library console_bridge $prefix/libs/console_bridge
 [ -f $prefix/target/lib/liblz4.a ] || run_cmd build_library lz4 $prefix/libs/lz4-r124/cmake_unofficial
-[ -f $prefix/target/lib/libxml2.a ] || run_cmd build_library_with_toolchain libxml2 $prefix/libs/libxml2-2.9.1
+#[ -f $prefix/target/lib/libxml2.a ] || run_cmd build_library_with_toolchain libxml2 $prefix/libs/libxml2-2.9.1
 [ -f $prefix/target/lib/libeigen.a ] || run_cmd build_eigen $prefix/libs/eigen
 [ -f $prefix/target/lib/libyaml-cpp.a ] || run_cmd build_library yaml-cpp $prefix/libs/yaml-cpp
 [ -f $prefix/target/lib/liblog4cxx.a ] || run_cmd build_library_with_toolchain log4cxx $prefix/libs/apache-log4cxx-0.10.0
