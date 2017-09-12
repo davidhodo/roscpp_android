@@ -20,5 +20,5 @@ echo -e '\e[34mBuilding docker image.\e[39m'
 echo
 
 # Build docker image
-docker build -t rosndk ./docker/
+docker build -t is4s/rosndk:r15b ./docker/
 # TODO: Verify successful docker image build
