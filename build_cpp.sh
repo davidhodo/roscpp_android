@@ -98,6 +98,7 @@ echo
 
 # Use ROS_PARALLEL_JOBS=-j1 to compile with only one core (Useful to point errors in catkin_make)
 export ROS_PARALLEL_JOBS="-j$PARALLEL_JOBS -l$PARALLEL_JOBS"
+#export ROS_PARALLEL_JOBS=-j1 
 
 ./src/catkin/bin/catkin_make --cmake-args -DCMAKE_TOOLCHAIN_FILE=$RBA_TOOLCHAIN \
     -DCMAKE_SYSTEM_NAME=Android \

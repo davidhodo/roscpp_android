@@ -32,6 +32,7 @@ elif [ $1 == 'catkin' ]; then
 elif [ $1 == 'console_bridge' ]; then
     URL=git@github.com:davidhodo/console_bridge.git
     COMP='git'
+    #HASH='0.3.2'
 elif [ $1 == 'eigen' ]; then
     URL=https://github.com/tulku/eigen.git
     COMP='git'

@@ -67,6 +67,10 @@ cmake_build() {
               -DBUILD_SHARED_LIBS=0 -DCATKIN_ENABLE_TESTING=0 \
                                                                             
 
+    #cmake .. -DCMAKE_TOOLCHAIN_FILE=$RBA_TOOLCHAIN \
+    #    -DANDROID_TOOLCHAIN_NAME=$toolchain -DANDROID_NATIVE_API_LEVEL=$platform $host64 \
+    #    -DPYTHON_EXECUTABLE=$python -DCMAKE_INSTALL_PREFIX=$target -DBUILD_SHARED_LIBS=0 -DPCL_SHARED_LIBS=FALSE \
+    #    -DBoost_NO_BOOST_CMAKE=ON -DBOOST_ROOT=$CMAKE_PREFIX_PATH -DBoost_INCLUDE_DIR=$CMAKE_PREFIX_PATH/include -DBoost_LIBRARY_DIRS=$CMAKE_PREFIX_PATH/lib 
     make -j$PARALLEL_JOBS -l$PARALLEL_JOBS install
 }
 

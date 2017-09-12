@@ -92,8 +92,10 @@ if [ -z $ROS_DISTRO ] ; then
 fi
 
 
-#echo "Setup standalone toolchain: $standalone_toolchain_path"
-#[ -d $standalone_toolchain_path ] || run_cmd setup_standalone_toolchain
+#echo "Setup standalone toolchain: $ANDROID_STANDALONE_TOOLCHAIN="
+#[ -d $ANDROID_STANDALONE_TOOLCHAIN] || $ANDROID_NDK/build/tools/make_standalone_toolchain.py --arch arm --api 19 --stl libc++ --install-dir $ANDROID_STANDALONE_TOOLCHAIN
+#$ANDROID_NDK/build/tools/make_standalone_toolchain.py --arch arm --api 19 --stl libc++ --install-dir $ANDROID_STANDALONE_TOOLCHAIN --force
+#$ANDROID_NDK/build/tools/make_standalone_toolchain.py --arch arm --api 19 --install-dir $ANDROID_STANDALONE_TOOLCHAIN --force
 
 echo
 echo -e '\e[34mGetting library dependencies.\e[39m'
@@ -107,14 +109,15 @@ export CMAKE_PREFIX_PATH=$prefix/target
 
 # Get the android ndk build helper script
 # If file doesn't exist, then download and patch it
-if ! [ -e $prefix/android.toolchain.cmake ]; then
-    cd $prefix
-    download 'https://raw.githubusercontent.com/taka-no-me/android-cmake/556cc14296c226f753a3778d99d8b60778b7df4f/android.toolchain.cmake'
-    patch -p0 -N -d $prefix < $my_loc/patches/android.toolchain.cmake.patch
-    cat $my_loc/files/android.toolchain.cmake.addendum >> $prefix/android.toolchain.cmake
-fi
+#if ! [ -e $prefix/android.toolchain.cmake ]; then
+#    cd $prefix
+#    download 'https://raw.githubusercontent.com/taka-no-me/android-cmake/556cc14296c226f753a3778d99d8b60778b7df4f/android.toolchain.cmake'
+#    patch -p0 -N -d $prefix < $my_loc/patches/android.toolchain.cmake.patch
+#    cat $my_loc/files/android.toolchain.cmake.addendum >> $prefix/android.toolchain.cmake
+#fi
 
-export RBA_TOOLCHAIN=$prefix/android.toolchain.cmake
+#export RBA_TOOLCHAIN=$prefix/android.toolchain.cmake
+export RBA_TOOLCHAIN=$ANDROID_NDK/build/cmake/android.toolchain.cmake
 
 echo
 echo -e '\e[34mRunning with configuration:\e[39m'
