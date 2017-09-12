@@ -30,9 +30,9 @@ elif [ $1 == 'catkin' ]; then
     URL='-b 0.6.5 https://github.com/ros/catkin.git'
     COMP='git'
 elif [ $1 == 'console_bridge' ]; then
-    URL=https://github.com/ros/console_bridge.git
+    URL=git@github.com:davidhodo/console_bridge.git
     COMP='git'
-    HASH='0.3.2'
+    #HASH='0.3.2'
 elif [ $1 == 'eigen' ]; then
     URL=https://github.com/tulku/eigen.git
     COMP='git'
@@ -49,7 +49,9 @@ elif [ $1 == 'tinyxml' ]; then
     URL=https://github.com/chadrockey/tinyxml_cmake
     COMP='git'
 elif [ $1 == 'yaml-cpp' ]; then
-    URL=https://github.com/ekumenlabs/yaml-cpp.git
+    URL=https://github.com/davidhodo/yaml-cpp.git
+    #URL=https://github.com/jbeder/yaml-cpp.git
+    #URL=https://github.com/ekumenlabs/yaml-cpp.git
     COMP='git'
 elif [ $1 == 'rospkg' ]; then
     URL=https://github.com/ros-infrastructure/rospkg.git

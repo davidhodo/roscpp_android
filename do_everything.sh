@@ -11,6 +11,7 @@ set -e
 export PARALLEL_JOBS=$(nproc)
 
 my_loc="$(cd "$(dirname $0)" && pwd)"
+echo "My location : $my_loc"
 source $my_loc/config.sh
 source $my_loc/utils.sh
 debugging=0
@@ -24,8 +25,6 @@ else
     echo "ROS environment not found, please install it"
     exit 1
 fi
-
-
 
 # verbose is a bool flag indicating if we want more verbose output in
 # the build process. Useful for debugging build system or compiler errors.
@@ -92,12 +91,11 @@ if [ -z $ROS_DISTRO ] ; then
     die "HOST ROS ENVIRONMENT NOT FOUND! Did you source /opt/ros/$ROS_DISTRO/setup.bash"
 fi
 
-export ANDROID_STANDALONE_TOOLCHAIN=/opt/android-toolchain
 
-echo "Setup standalone toolchain: $ANDROID_STANDALONE_TOOLCHAIN="
+#echo "Setup standalone toolchain: $ANDROID_STANDALONE_TOOLCHAIN="
 #[ -d $ANDROID_STANDALONE_TOOLCHAIN] || $ANDROID_NDK/build/tools/make_standalone_toolchain.py --arch arm --api 19 --stl libc++ --install-dir $ANDROID_STANDALONE_TOOLCHAIN
 #$ANDROID_NDK/build/tools/make_standalone_toolchain.py --arch arm --api 19 --stl libc++ --install-dir $ANDROID_STANDALONE_TOOLCHAIN --force
-$ANDROID_NDK/build/tools/make_standalone_toolchain.py --arch arm --api 19 --install-dir $ANDROID_STANDALONE_TOOLCHAIN --force
+#$ANDROID_NDK/build/tools/make_standalone_toolchain.py --arch arm --api 19 --install-dir $ANDROID_STANDALONE_TOOLCHAIN --force
 
 echo
 echo -e '\e[34mGetting library dependencies.\e[39m'
@@ -121,10 +119,20 @@ export CMAKE_PREFIX_PATH=$prefix/target
 #export RBA_TOOLCHAIN=$prefix/android.toolchain.cmake
 export RBA_TOOLCHAIN=$ANDROID_NDK/build/cmake/android.toolchain.cmake
 
+echo
+echo -e '\e[34mRunning with configuration:\e[39m'
+echo -e '\e[34m-- Prefix: '$prefix' \e[39m'
+echo -e '\e[34m-- ANDROID_HOME: '$ANDROID_HOME' \e[39m'
+echo -e '\e[34m-- ANDROID_STANDALONE_TOOLCHAIN: '$ANDROID_STANDALONE_TOOLCHAIN'\e[39m'
+echo -e '\e[34m-- ANDROID_NDK: '$ANDROID_NDK'\e[39m'
+echo -e '\e[34m-- RBA_TOOLCHAIN: '$RBA_TOOLCHAIN'\e[39m'
+echo -e '\e[34m-- CMAKE_PREFIX_PATH: '$CMAKE_PREFIX_PATH'\e[39m'
+echo
+
+
 # Now get boost with a specialized build
 [ -d $prefix/libs/boost ] || run_cmd get_library boost $prefix/libs
 [ -d $prefix/libs/bzip2 ] || run_cmd get_library bzip2 $prefix/libs
-[ -d $prefix/libs/uuid ] || run_cmd get_library uuid $prefix/libs
 [ -d $prefix/libs/tinyxml ] || run_cmd get_library tinyxml $prefix/libs
 [ -d $prefix/libs/catkin ] || run_cmd get_library catkin $prefix/libs
 [ -d $prefix/libs/console_bridge ] || run_cmd get_library console_bridge $prefix/libs
@@ -133,21 +141,21 @@ export RBA_TOOLCHAIN=$ANDROID_NDK/build/cmake/android.toolchain.cmake
 [ -d $prefix/libs/eigen ] || run_cmd get_library eigen $prefix/libs
 [ -d $prefix/libs/assimp-3.1.1 ] || run_cmd get_library assimp $prefix/libs
 [ -d $prefix/libs/yaml-cpp ] || run_cmd get_library yaml-cpp $prefix/libs
-[ -d $prefix/libs/apache-log4cxx-0.10.0 ] || run_cmd get_library log4cxx $prefix/libs
+#[ -d $prefix/libs/apache-log4cxx-0.10.0 ] || run_cmd get_library log4cxx $prefix/libs
 [ -d $prefix/libs/protobuf-3.3.0 ] || run_cmd get_library protobuf $prefix/libs
 
 # get rospkg dependency for pluginlib support at build time
 [ -d $my_loc/files/rospkg ] || run_cmd get_library rospkg $my_loc/files
 
-[ -f $prefix/target/bin/catkin_make ] || run_cmd build_library catkin $prefix/libs/catkin
-. $prefix/target/setup.bash
+#[ -f $prefix/target/bin/catkin_make ] || run_cmd build_library catkin $prefix/libs/catkin
+#. $prefix/target/setup.bash
 
 echo
 echo -e '\e[34mGetting ROS packages\e[39m'
 echo
 
 if [[ $skip -ne 1 ]] ; then
-    run_cmd get_ros_stuff $prefix
+    #run_cmd get_ros_stuff $prefix
 
     echo
     echo -e '\e[34mApplying patches.\e[39m'
@@ -165,7 +173,7 @@ if [[ $skip -ne 1 ]] ; then
     apply_patch $my_loc/patches/eigen.patch
 
     # Patch log4cxx - Add missing headers
-    apply_patch $my_loc/patches/log4cxx.patch
+    #apply_patch $my_loc/patches/log4cxx.patch
 
     ## Demo Application specific patches
 
@@ -182,10 +190,10 @@ echo
 [ -f $prefix/target/lib/libconsole_bridge.a ] || run_cmd build_library console_bridge $prefix/libs/console_bridge
 [ -f $prefix/target/lib/liblz4.a ] || run_cmd build_library lz4 $prefix/libs/lz4-r124/cmake_unofficial
 #[ -f $prefix/target/lib/libxml2.a ] || run_cmd build_library_with_toolchain libxml2 $prefix/libs/libxml2-2.9.1
-[ -f $prefix/target/lib/libeigen.a ] || run_cmd build_eigen $prefix/libs/eigen
+[ -f $prefix/target/lib/libeigen.a ] || run_cmd copy_eigen $prefix/libs/eigen
 [ -f $prefix/target/lib/libyaml-cpp.a ] || run_cmd build_library yaml-cpp $prefix/libs/yaml-cpp
-[ -f $prefix/target/lib/liblog4cxx.a ] || run_cmd build_library_with_toolchain log4cxx $prefix/libs/apache-log4cxx-0.10.0
-[ -f $prefix/target/lib/libprotobuf.a ] || run_cmd build_library_with_toolchain protobuf $prefix/libs/protobuf-3.3.0
+#[ -f $prefix/target/lib/liblog4cxx.a ] || run_cmd build_library_with_toolchain log4cxx $prefix/libs/apache-log4cxx-0.10.0
+#[ -f $prefix/target/lib/libprotobuf.a ] || run_cmd build_library_with_toolchain protobuf $prefix/libs/protobuf-3.3.0
 
 
 echo
