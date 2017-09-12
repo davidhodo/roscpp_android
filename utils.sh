@@ -51,9 +51,22 @@ cmake_build() {
 
     cd $1
     mkdir -p build && cd build
-    cmake .. -DCMAKE_TOOLCHAIN_FILE=$RBA_TOOLCHAIN \
-        -DANDROID_TOOLCHAIN_NAME=$toolchain -DANDROID_NATIVE_API_LEVEL=$platform $host64 \
-        -DPYTHON_EXECUTABLE=$python -DCMAKE_INSTALL_PREFIX=$target -DBUILD_SHARED_LIBS=0 -DPCL_SHARED_LIBS=FALSE
+    #cmake .. -DCMAKE_TOOLCHAIN_FILE=$RBA_TOOLCHAIN \
+    #    -DANDROID_TOOLCHAIN_NAME=$toolchain -DANDROID_NATIVE_API_LEVEL=$platform $host64 \
+    #    -DPYTHON_EXECUTABLE=$python -DCMAKE_INSTALL_PREFIX=$target -DBUILD_SHARED_LIBS=0 -DPCL_SHARED_LIBS=FALSE
+#    cmake .. -DCMAKE_ANDROID_STANDALONE_TOOLCHAIN=$ANDROID_STANDALONE_TOOLCHAIN \
+#        -DCMAKE_SYSTEM_NAME=Android -DCMAKE_SYSTEM_VERSION=19\
+#        -DPYTHON_EXECUTABLE=$python -DCMAKE_INSTALL_PREFIX=$target -DBUILD_SHARED_LIBS=0 -DPCL_SHARED_LIBS=FALSE
+    cmake ../ -DCMAKE_TOOLCHAIN_FILE=$RBA_TOOLCHAIN \
+              -DCMAKE_SYSTEM_NAME=Android \
+              -DANDROID_TOOLCHAIN_NAME=arm-linux-androideabi-clang \
+              -DANDROID_ABI=armeabi-v7a \
+              -DANDROID_NATIVE_API_LEVEL=23  \
+              -DANDROID_STL=c++_static \
+              -DANDROID=TRUE  \
+              -DBUILD_SHARED_LIBS=0 -DCATKIN_ENABLE_TESTING=0 \
+                                                                            
+
     make -j$PARALLEL_JOBS -l$PARALLEL_JOBS install
 }
 

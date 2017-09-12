@@ -24,21 +24,29 @@ echo
 
 [ "$CMAKE_PREFIX_PATH" = "" ] && die 'could not find target basedir. Have you run build_catkin.sh and sourced setup.bash?'
 
-#if [ ! -d toolchain/ ]; then
-#  mkdir toolchain/
-#  #$ANDROID_NDK/build/tools/make-standalone-toolchain.sh --platform=$platform --install-dir=./toolchain --ndk-dir=$ANDROID_NDK --system=linux-x86_64
-#  $ANDROID_NDK/build/tools/make_standalone_toolchain.py --arch arm --api 19 --install-dir ./toolchain
-#fi
+#if [ $1 == 'poco' ]; then
+#    ./configure --config=Android_static --no-samples --no-tests
+#elif [ $1 == 'curl' ]; then
+#    ./configure --prefix=$CMAKE_PREFIX_PATH --disable-shared --enable-static --without-ssl --host=arm-linux-androideabi --disable-tftp --disable-sspi --disable-ipv6 --disable-ldaps --disable-ldap --disable-telnet --disable-pop3 --disable-ftp --disable-imap --disable-smtp --disable-pop3 --disable-rtsp --disable-ares --without-ca-bundle --disable-warnings --disable-manual --without-nss --without-random
+export CC="arm-linux-androideabi-gcc --sysroot $SYSROOT"
+export CXX="arm-linux-androideabi-g++ --sysroot $SYSROOT"
+#export CXXSTL=$NDK/sources/cxx-stl/gnu-libstdc++/4.6
 
-if [ $1 == 'poco' ]; then
-    ./configure --config=Android_static --no-samples --no-tests
-elif [ $1 == 'curl' ]; then
-    ./configure --prefix=$CMAKE_PREFIX_PATH --disable-shared --enable-static --without-ssl --host=arm-linux-androideabi --disable-tftp --disable-sspi --disable-ipv6 --disable-ldaps --disable-ldap --disable-telnet --disable-pop3 --disable-ftp --disable-imap --disable-smtp --disable-pop3 --disable-rtsp --disable-ares --without-ca-bundle --disable-warnings --disable-manual --without-nss --without-random
-elif [ $1 == 'protobuf' ]; then
+if [ $1 == 'protobuf' ]; then
     ./autogen.sh
+    ./configure --prefix=$CMAKE_PREFIX_PATH \
+        --host=arm-linux-androideabi \
+        --with-sysroot=$SYSROOT \
+        --disable-shared \
+        --enable-static  \
+        --enable-cross-compile \
+        --with-protoc=protoc \
+        CFLAGS="-march=armv7-a" \
+        CXXFLAGS="-march=armv7-a -I$CXXSTL/include -I$CXXSTL/libs/armeabi-v7a/include"
+
     ./configure --prefix=$CMAKE_PREFIX_PATH --enable-shared=no --enable-static    
 else
-    ./configure --prefix=$CMAKE_PREFIX_PATH --enable-shared=no --enable-static
+    ./configure --prefix=$CMAKE_PREFIX_PATH --enable-shared=no --enable-static --build=x86_64-unknown-linux-gnu --host=arm-linux-androideabi 
 fi
 
 export PATH=$PATH:$ANDROID_STANDALONE_TOOLCHAIN/bin
