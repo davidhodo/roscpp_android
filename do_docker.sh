@@ -87,7 +87,7 @@ echo
 cmd_exists docker || die 'docker was not found'
 
 echo -e '\e[34mPulling base docker image.\e[39m'
-docker pull $image_name
+#docker pull $image_name
 
 
 if [[ $standard -eq 1 ]]; then
